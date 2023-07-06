@@ -11,7 +11,7 @@ import RickandmortyinfoBody from "../components/RickandmortyinfoBody";
 
 export default function Rickandmorty({ route }) {
     const { characters } = route.params;
-    console.log(characters);
+    // console.log(characters);
     return (
         <ImageBackground
             source={require("../assets/videobg4.gif")}

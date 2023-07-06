@@ -16,7 +16,6 @@ export default function Account() {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             {auth ? <UserData /> : <LoginForm />}
-            <Text></Text>
         </SafeAreaView>
     );
 }

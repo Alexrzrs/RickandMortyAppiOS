@@ -23,7 +23,7 @@ export default function LoginForm() {
         validationSchema: Yup.object(validationSchema()),
         validateOnChange: false,
         onSubmit: (formData) => {
-            console.log(formData);
+            // console.log(formData);
             setError("");
             const { username, password } = formData;
             if (username !== user.username || password !== user.password) {
@@ -38,9 +38,10 @@ export default function LoginForm() {
                 };
                 setLoggedUserData(userDetail2);
                 console.log(userDetail);
+                // const { login } = useAuth();
             }
             console.log("Formulario enviado");
-            console.log(formData);
+            // console.log(formData);
         },
     });
 

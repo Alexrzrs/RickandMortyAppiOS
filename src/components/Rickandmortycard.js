@@ -12,7 +12,7 @@ import { useFonts } from "expo-font";
 
 export default function Rickandmortycard(props) {
     const { characters } = props;
-    console.log(props);
+    // console.log(props);
     const navigation = useNavigation();
     const goToPersonaje = () => {
         navigation.navigate("Rickandmorty", {

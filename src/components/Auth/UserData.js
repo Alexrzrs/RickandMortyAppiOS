@@ -63,9 +63,19 @@ export default function UserData() {
                     placeholder={"Contraseña: ********"}
                     style={styles.input5}
                 />
+                <TextInput
+                    value={userName}
+                    onChangeText={(userName) => setUserName(userName)}
+                    placeholder={"Favoritos: 0"}
+                    style={styles.input5}
+                />
+                <Button title="Cerrar sesion" onPress={() => logOut()} />
             </View>
         </ImageBackground>
     );
+    function logOut() {
+        setLoggedUserData(undefined);
+    }
 }
 
 const styles = StyleSheet.create({
@@ -88,7 +98,7 @@ const styles = StyleSheet.create({
         textShadowRadius: 10,
     },
     bienvenida2: {
-        marginTop: 30,
+        marginTop: 20,
         fontSize: 50,
         fontFamily: "rickfont",
         color: "white",
@@ -101,7 +111,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 44,
         padding: 10,
-        marginTop: 80,
+        marginTop: 50,
         marginBottom: 10,
         backgroundColor: "#e8e8e8",
         borderRadius: 20,

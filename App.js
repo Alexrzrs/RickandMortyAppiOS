@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import Navigation from "./src/navigation/Navigation";
 import { UserContext } from "./src/screen/Account";
 import { StatusBar } from "expo-status-bar";
+import { AuthProvider } from "./src/context/AuthContext";
 
 export default function App() {
     const [loggedUserData, setLoggedUserData] = useState();
@@ -12,7 +13,9 @@ export default function App() {
     return (
         <UserContext.Provider value={{ loggedUserData, setLoggedUserData }}>
             <NavigationContainer>
+                {/* <AuthProvider> */}
                 <Navigation />
+                {/* </AuthProvider> */}
             </NavigationContainer>
         </UserContext.Provider>
     );

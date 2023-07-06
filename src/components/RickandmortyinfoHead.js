@@ -1,8 +1,53 @@
-import { Text, SafeAreaView, StyleSheet, Image } from "react-native";
-import React from "react";
+import {
+    Text,
+    SafeAreaView,
+    StyleSheet,
+    Image,
+    TouchableOpacity,
+} from "react-native";
+import React, { useContext, useState, useEffect } from "react";
 import { useFonts } from "expo-font";
+import { MaterialIcons } from "@expo/vector-icons";
+import { UserContext } from "../screen/Account";
+import useAuth from "../hooks/useAuth";
+import {
+    addFavoriteApi,
+    isFavoriteApi,
+    removeFavoriteApi,
+} from "../api/favorito";
 
 export default function RickandmortyinfoHead({ characters }) {
+    const { loggedUserData, setLoggedUserData } = useContext(UserContext);
+    const [isFavorite, setIsFavorite] = useState(undefined);
+
+    useEffect(() => {
+        (async () => {
+            const response = await isFavoriteApi(characters.id);
+            setIsFavorite(response);
+            console.log(response);
+        })();
+    }, []);
+
+    const addFavorite = async () => {
+        await addFavoriteApi(characters.id);
+        setIsFavorite(true);
+    };
+
+    const removeFavorite = async () => {
+        await removeFavoriteApi(characters.id);
+        setIsFavorite(false);
+    };
+
+    const agregarFavoritos = async () => {
+        if (isFavorite) {
+            await removeFavorite();
+            console.log("Eliminado de favoritos");
+        } else {
+            await addFavorite();
+            console.log("Agregado a favoritos");
+        }
+    };
+
     const [fontsLoaded] = useFonts({
         rickfont: require("../../assets/fonts/get_schwifty.ttf"),
     });
@@ -10,13 +55,24 @@ export default function RickandmortyinfoHead({ characters }) {
     if (!fontsLoaded) {
         return undefined;
     }
-    console.log(characters);
 
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.characterNameText}>{characters.name}</Text>
             <Image source={{ uri: characters.image }} style={styles.image} />
             <Text style={styles.characterIdText}>ID: {characters.id}</Text>
+            {loggedUserData && (
+                <TouchableOpacity
+                    style={styles.MaterialIcons}
+                    onPress={agregarFavoritos}
+                >
+                    <MaterialIcons
+                        name={isFavorite ? "favorite" : "favorite-border"}
+                        size={32}
+                        color="red"
+                    />
+                </TouchableOpacity>
+            )}
         </SafeAreaView>
     );
 }
@@ -59,5 +115,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 4,
         overflow: "hidden",
+    },
+    MaterialIcons: {
+        position: "absolute",
+        left: "66%",
+        top: 230,
+
+        borderRadius: 10,
     },
 });
