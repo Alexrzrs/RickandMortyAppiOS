@@ -12,6 +12,7 @@ import { getFavoriteApi } from "../api/favorito";
 import { UserContext } from "../screen/Account";
 import RickandmortyListFavoritos from "../components/RickandmortyListFavoritos";
 import { useFocusEffect } from "@react-navigation/native";
+import UnloggedRedirectLogin from "../components/UnloggedRedirectLogin";
 
 export default function Favoritos() {
     const [fontsLoaded] = useFonts({
@@ -50,14 +51,18 @@ export default function Favoritos() {
 
     return (
         <ImageBackground
-            source={require("../assets/galaxy.gif")}
+            source={
+                loggedUserData
+                    ? require("../assets/galaxy.gif")
+                    : require("../assets/coolbg.jpg")
+            }
             style={styles.background}
         >
             <SafeAreaView>
                 <Text style={styles.tituloFavs}>Favoritos</Text>
                 {/* <Button title="Actualizar Favoritos" onPress={checkFavorito} /> */}
                 {!loggedUserData ? (
-                    <Text style={{ color: "white" }}>Usuario no logeado</Text>
+                    <UnloggedRedirectLogin />
                 ) : (
                     <RickandmortyListFavoritos characters={characters} />
                 )}

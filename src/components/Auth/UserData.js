@@ -4,20 +4,34 @@ import {
     TextInput,
     Button,
     StyleSheet,
-    Keyboard,
     ImageBackground,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { UserContext } from "../../screen/Account";
 import { useFonts } from "expo-font";
+import { getFavoriteApi } from "../../api/favorito";
+import { useFocusEffect } from "@react-navigation/native";
 
-export default function UserData() {
+const UserData = () => {
     const { loggedUserData, setLoggedUserData } = useContext(UserContext);
     //Configurar mas si es que se cambiaran los datos de la cuenta
     const [userName, setUserName] = useState("");
+    const [favoritos, setFavoritos] = useState([]);
+    const fetchFavorites = async () => {
+        const response = await getFavoriteApi();
+        setFavoritos(response);
+    };
     const [fontsLoaded] = useFonts({
         rickfont: require("../../../assets/fonts/get_schwifty.ttf"),
     });
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if (loggedUserData) {
+                fetchFavorites();
+            }
+        }, [loggedUserData])
+    );
 
     if (!fontsLoaded) {
         return undefined;
@@ -65,8 +79,8 @@ export default function UserData() {
                 />
                 <TextInput
                     value={userName}
-                    onChangeText={(userName) => setUserName(userName)}
-                    placeholder={"Favoritos: 0"}
+                    onChangeText={() => {}}
+                    placeholder={"Favoritos: " + `${favoritos.length}`}
                     style={styles.input5}
                 />
                 <Button title="Cerrar sesion" onPress={() => logOut()} />
@@ -76,7 +90,9 @@ export default function UserData() {
     function logOut() {
         setLoggedUserData(undefined);
     }
-}
+};
+
+export default UserData;
 
 const styles = StyleSheet.create({
     background: {
